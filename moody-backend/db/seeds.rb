@@ -5,3 +5,21 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+User.destroy_all
+Mood.destroy_all
+UserMood.destroy_all
+
+#Seeding Mood Data
+happy = Mood.create(name: "happy")
+sad = Mood.create(name: "sad")
+anxious = Mood.create(name:"anxious")
+calm = Mood.create(name:"calm")
+angry = Mood.create(name: "angry")
+
+#Seeding User data
+lisa = User.create(name:"Lisa")
+harum = User.create(name: "Harum")
+
+
+

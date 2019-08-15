@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  User: one
+  Mood: one
+  date_entry: 2019-08-15
+
+two:
+  User: two
+  Mood: two
+  date_entry: 2019-08-15

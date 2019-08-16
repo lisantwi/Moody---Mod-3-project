@@ -18,8 +18,7 @@ calm = Mood.create(name:"calm")
 angry = Mood.create(name: "angry")
 
 #Seeding User data
-lisa = User.create(name:"Lisa")
 harum = User.create(name: "Harum")
 
-
+harum_happy = UserMood.create(user_id: harum.id, mood_id: happy.id, note: "Hello, I'm happy", date_entry: 20190816)
 

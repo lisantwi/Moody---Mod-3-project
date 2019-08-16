@@ -19,14 +19,14 @@ ActiveRecord::Schema.define(version: 2019_08_15_214215) do
   end
 
   create_table "user_moods", force: :cascade do |t|
-    t.integer "User_id"
-    t.integer "Mood_id"
+    t.integer "user_id"
+    t.integer "mood_id"
     t.date "date_entry"
     t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["Mood_id"], name: "index_user_moods_on_Mood_id"
-    t.index ["User_id"], name: "index_user_moods_on_User_id"
+    t.index ["mood_id"], name: "index_user_moods_on_mood_id"
+    t.index ["user_id"], name: "index_user_moods_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

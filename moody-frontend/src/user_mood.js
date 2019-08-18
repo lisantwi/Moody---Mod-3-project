@@ -1,5 +1,3 @@
-
-
 function fetchAllNotes(){
     fetch(USER_URL)
     .then(res => res.json())
@@ -24,12 +22,11 @@ function renderNotes(user){
         noteP.innerText = mood.note
         moodName.innerText = mood.mood["name"]
 
-
         //appending stuff
         noteDiv.appendChild(noteP)
         noteDiv.appendChild(moodName)
         allNotesDiv.appendChild(noteDiv)  
-        
-    
     })
 }
+
+

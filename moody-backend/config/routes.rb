@@ -3,5 +3,5 @@ Rails.application.routes.draw do
   get 'user_moods', to: 'user_moods#index'
   get 'users', to: 'users#index'
   get 'moods', to: 'moods#index'
-  resources :moods
+  # resources :moods
 end

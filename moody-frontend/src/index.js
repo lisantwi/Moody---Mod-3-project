@@ -4,18 +4,33 @@ const USER_URL = `${BASE_URL}/users`
 
 document.addEventListener('DOMContentLoaded', function(){
     console.log("'ello, is it me you're looking for?")
-    // const noteDiv = document.querySelector('.user-notes')
-    fetchAllNotes()
-    renderForm().addEventListener('submit', noteSubmit)
+    renderForm()
+    const notesLink = document.querySelector('#notes-link')
+    notesLink.addEventListener('click', fetchAllNotes)
+    const homeLink = document.querySelector('#home-link')
+    homeLink.addEventListener('click', renderForm)
 })
+
+function burnDownDOM(){
+    console.log('burning down the DOM')
+    let elem = document.querySelector(".main-content")
+    let child = elem.lastElementChild;
+   
+    while (child) {
+        elem.removeChild(child);
+        child = elem.lastElementChild;
+    }
+}
 
 function contentDiv(){
     return document.querySelector('.main-content')
 }
 
 function renderForm(){
+    burnDownDOM()
     const noteForm = document.createElement('form')
     noteForm.innerHTML = buildForm()
+    noteForm.addEventListener('submit', noteSubmit)
     return contentDiv().appendChild(noteForm)
 }
 
@@ -53,12 +68,13 @@ function postNote(newNote){
 }
 
 function renderNewNote(noteObject){
-    const notesDiv = document.querySelector('.notes-div') 
+    const notesDiv = document.createElement('div')
+    notesDiv.classList.add('notes-div') 
     const noteDiv = document.createElement("div")
     const moodName = document.createElement("h3")
     const noteP = document.createElement("p")
-    noteP.innerText = noteObject.note
-    moodName.innerText = noteObject.mood["name"] 
+    noteP.innerText = `Note: ${noteObject.note}`
+    moodName.innerText = `Your Mood: ${noteObject.mood["name"]}`
     
     noteDiv.append(noteP, moodName)
     notesDiv.appendChild(noteDiv) 

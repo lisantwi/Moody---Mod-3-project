@@ -14,8 +14,6 @@ class UsersController < ApplicationController
         render json: user.to_json(user_serializer_options)
     end
 
-
-
     private 
 
     def user_params

@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_15_214215) do
+ActiveRecord::Schema.define(version: 2019_08_19_212905) do
+
+  create_table "activities", force: :cascade do |t|
+    t.string "name"
+    t.integer "user_id"
+    t.integer "mood_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "description"
+    t.index ["mood_id"], name: "index_activities_on_mood_id"
+    t.index ["user_id"], name: "index_activities_on_user_id"
+  end
 
   create_table "moods", force: :cascade do |t|
     t.string "name"

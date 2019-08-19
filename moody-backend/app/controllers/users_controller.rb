@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     private 
 
     def user_params
-        params.require(:user).permit(:name)
+        params.require(:user).permit(:name, :image)
     end
 
     def user_serializer_options()

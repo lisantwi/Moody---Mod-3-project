@@ -1,7 +1,7 @@
 class UserMoodsController < ApplicationController
 
     def index 
-        render json: UserMood.all.to_json(user_mood_serializer_options)
+        render json: UserMood.all.to_json(mood_note_serializer_options)
     end 
 
     def create

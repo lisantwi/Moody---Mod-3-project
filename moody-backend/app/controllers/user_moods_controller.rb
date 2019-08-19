@@ -6,7 +6,7 @@ class UserMoodsController < ApplicationController
 
     def create
         user_mood = UserMood.create(user_mood_params)
-        render json: user_mood.to_json(user_mood_serializer_options)
+        render json: user_mood.to_json(mood_note_serializer_options)
     end
 
 
@@ -14,6 +14,19 @@ class UserMoodsController < ApplicationController
 
     def user_mood_params
         params.require(:user_mood).permit(:user_id, :mood_id, :date_entry, :note)
+    end
+
+    def mood_note_serializer_options()
+        {  :include => {
+                :user => {
+                    :except => [:created_at, :updated_at]
+                },
+                :mood => {
+                    :except => [:created_at, :updated_at]
+                }
+            },
+            :except => [:created_at, :updated_at]
+        }
     end
 
     def user_mood_serializer_options()

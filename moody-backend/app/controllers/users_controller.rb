@@ -13,12 +13,11 @@ class UsersController < ApplicationController
     end
 
     def user_serializer_options()
-        {
-            :include => {
+        {   :include => { 
                 :user_moods => {
                     :except => [:created_at, :updated_at],
                     :include => {
-                        :mood =>{
+                        :mood => {
                             :except => [:created_at, :updated_at]
                         }
                     }

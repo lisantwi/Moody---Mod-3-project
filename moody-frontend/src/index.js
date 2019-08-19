@@ -34,6 +34,7 @@ function noteSubmit(){
         note: userMoodNote
     }
     postNote(newNote)
+    event.target.reset()
 }
 
 function postNote(newNote){
@@ -48,7 +49,19 @@ function postNote(newNote){
     
     fetch(USER_MOOD_URL, configObject)
     .then(res => res.json())
-    .then()
+    .then(renderNewNote)
+}
+
+function renderNewNote(noteObject){
+    const notesDiv = document.querySelector('.notes-div') 
+    const noteDiv = document.createElement("div")
+    const moodName = document.createElement("h3")
+    const noteP = document.createElement("p")
+    noteP.innerText = noteObject.note
+    moodName.innerText = noteObject.mood["name"] 
+    
+    noteDiv.append(noteP, moodName)
+    notesDiv.appendChild(noteDiv) 
 }
 
 function todaysDate(){

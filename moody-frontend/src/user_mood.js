@@ -1,9 +1,7 @@
 function fetchAllNotes(){
-    console.log('fetching notes...')
     fetch(USER_URL)
     .then(res => res.json())
     .then(userArr => userArr.forEach(renderNotes))
-    console.log('notes fetched')
 }
 
 function renderNotes(user){

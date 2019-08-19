@@ -1,14 +1,17 @@
 function fetchAllNotes(){
+    console.log('fetching notes...')
     fetch(USER_URL)
     .then(res => res.json())
     .then(userArr => userArr.forEach(renderNotes))
+    console.log('notes fetched')
 }
 
 function renderNotes(user){
-    const main = document.querySelector("main")
+    // const main = document.querySelector("main")
     const allNotesDiv = document.createElement("div")
-    main.appendChild(allNotesDiv)
-    allNotesDiv.classList.add("main-content")
+    allNotesDiv.classList.add('notes-div')
+    contentDiv().appendChild(allNotesDiv)
+    // allNotesDiv.classList.add("main-content")
 
     const titleH2 = document.createElement("h2")
     titleH2.innerText = "Your Notes"

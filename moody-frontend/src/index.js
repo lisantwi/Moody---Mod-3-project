@@ -15,7 +15,10 @@ document.addEventListener('DOMContentLoaded', function(){
     // const noteDiv = document.querySelector('.user-notes')
     
     const loginSpan = document.querySelector("#login")
-    loginSpan.addEventListener("click", loginForm)
+
+    let navBar = document.querySelector(".display-nav")
+    navBar.style.display="none"
+    loginForm()
     
 })
 
@@ -76,7 +79,7 @@ function findOrCreate(){
 
 function burnDownDOM(){
     console.log('burning down the DOM')
-    let elem = document.querySelector(".main-content")
+    let elem = document.querySelector("main")
     let child = elem.lastElementChild;
    
  
@@ -91,15 +94,21 @@ function burnDownDOM(){
 
 
 function contentDiv(){
-    return document.querySelector('.main-content')
+    const div = document.createElement("div")
+    const main = document.querySelector("main")
+    div.classList.add("main-content")
+    return main.appendChild(div)
 }
 
 function renderForm(){
     burnDownDOM()
+    let navBar = document.querySelector(".display-nav")
+    navBar.style.display = ""
     const noteForm = document.createElement('form')
     noteForm.innerHTML = buildForm()
     noteForm.addEventListener('submit', noteSubmit)
     return contentDiv().appendChild(noteForm)
+    
 }
 
 function noteSubmit(){

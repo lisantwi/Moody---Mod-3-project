@@ -29,8 +29,6 @@ function renderNotes(user){
         const deleteButton = document.createElement('button')
         deleteButton.innerText = 'Delete note'
         deleteButton.addEventListener('click', noteDelete)
-        debugger
-
         //appending stuff
         noteDiv.append(noteP, dateP, moodName, deleteButton)
         allNotesDiv.appendChild(noteDiv)  

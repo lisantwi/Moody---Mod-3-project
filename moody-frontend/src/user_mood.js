@@ -1,10 +1,12 @@
 function fetchAllNotes(){
-    fetch(USER_URL)
+    let id = JSON.parse(localStorage.getItem("user")).id
+    fetch(`${USER_URL}/${id}`)
     .then(res => res.json())
-    .then(userArr => userArr.forEach(renderNotes))
+    .then(renderNotes)
 }
 
 function renderNotes(user){
+    burnDownDOM()
     // const main = document.querySelector("main")
     const allNotesDiv = document.createElement("div")
     allNotesDiv.classList.add('notes-div')

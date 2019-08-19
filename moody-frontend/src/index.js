@@ -7,26 +7,27 @@ const USER_URL = `${BASE_URL}/users`
 document.addEventListener('DOMContentLoaded', function(){
     console.log("'ello, is it me you're looking for?")
     // renderForm()
+    let navBar = document.querySelector(".display-nav")
+    navBar.style.display="none"
+    loginForm()
+
     const notesLink = document.querySelector('#notes-link')
     notesLink.addEventListener('click', fetchAllNotes)
     const homeLink = document.querySelector('#home-link')
     homeLink.addEventListener('click', renderForm)
-
-    // const noteDiv = document.querySelector('.user-notes')
-    
-    const loginSpan = document.querySelector("#login")
-
-    let navBar = document.querySelector(".display-nav")
-    navBar.style.display="none"
-    loginForm()
-    
+    const profileLink = document.querySelector('#user-profile')
+    profileLink.addEventListener('click', profileLoad)    
 })
 
+function profileLoad(){
+    burnDownDOM()
+    console.log('so you wanna see your profile')
+}
+
 function loginForm(){
-    event.preventDefault()
+    // event.preventDefault()
     burnDownDOM()
     const main = document.querySelector("main")
-
     const formDiv = document.createElement("div")
     const form = document.createElement("form")
     const formInput = document.createElement("input")
@@ -42,20 +43,15 @@ function loginForm(){
     const submitButton = document.createElement("button")
     submitButton.innerHTML = "Submit"
     submitButton.setAttribute("type", "submit")
-    
-    
-    
 
     formDiv.append(h1Text, form)
     form.append(formInput, submitButton)
 
     form.addEventListener("submit", findOrCreate)
-
-
-
 }
 
 function findOrCreate(){
+    event.preventDefault()
     let data = {
         "name": event.target[0].value
     }
@@ -73,8 +69,6 @@ function findOrCreate(){
         burnDownDOM()
         renderForm().addEventListener('submit', noteSubmit)
     })
-
-
 }
 
 function burnDownDOM(){
@@ -88,10 +82,6 @@ function burnDownDOM(){
         child = elem.lastElementChild;
     }
 }
- 
-
-
-
 
 function contentDiv(){
     const div = document.createElement("div")
@@ -108,7 +98,6 @@ function renderForm(){
     noteForm.innerHTML = buildForm()
     noteForm.addEventListener('submit', noteSubmit)
     return contentDiv().appendChild(noteForm)
-    
 }
 
 function noteSubmit(){
@@ -137,9 +126,9 @@ function postNote(newNote){
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(newNote)
-        }
+    }
 
-        let user = JSON.parse(localStorage.getItem("user"))
+    let user = JSON.parse(localStorage.getItem("user"))
     
     fetch(USER_MOOD_URL, configObject)
     .then(res => res.json())
@@ -172,11 +161,11 @@ function buildForm(){
         <label for='user-mood'>What's your mood like today?</label>
         <select class='form-control col-sm-8 form-control-lg'
             id='user-mood'>
-            <option value='4'>Calm</option>
-            <option value='1'>Happy</option>
-            <option value='3'>Anxious</option>
-            <option value='2'>Sad</option>
-            <option value='5'>Angry</option>
+            <option value='9'>Calm</option>
+            <option value='6'>Happy</option>
+            <option value='8'>Anxious</option>
+            <option value='7'>Sad</option>
+            <option value='10'>Angry</option>
         </select>
     </div>
     <br>

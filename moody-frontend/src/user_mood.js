@@ -23,7 +23,14 @@ function renderNotes(user){
         const moodName = document.createElement("h5")
         const noteP = document.createElement("p")
         const dateP = document.createElement('p')
-        dateP.innerText = `Date posted: ${user_mood.date_entry}`
+
+        const noteDate = user_mood.date_entry.toString()
+        const yyyy = parseInt(noteDate.slice(0,4))
+        const mm = parseInt(noteDate.slice(4,6))
+        const dd = parseInt(noteDate.slice(6,8))
+        const jsDate = new Date(yyyy,mm-1,dd)
+        
+        dateP.innerText = `Date posted: ${jsDate}`
         noteP.innerText = `Note: ${user_mood.note}`
         moodName.innerText = `Your Mood: ${user_mood.mood["name"]}`
         const deleteButton = document.createElement('button')
@@ -37,7 +44,7 @@ function renderNotes(user){
 
 function noteDelete(event){
     /* perhaps a misnomer, because we're not only deleting the note, 
-    we're deleting the entire instance of user_mood */
+    we're deleting the entire instance of user_mood, of which note is an attribute */
    const userMoodId = parseInt(event.target.parentNode.dataset.userMood)
 
    fetch(`${USER_MOOD_URL}/${userMoodId}`, {

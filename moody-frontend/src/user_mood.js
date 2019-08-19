@@ -15,19 +15,36 @@ function renderNotes(user){
     titleH2.innerText = "Your Notes"
     allNotesDiv.appendChild(titleH2)
 
-    user.user_moods.forEach(mood => {
+    user.user_moods.forEach(user_mood => {
         //creating individual note variables
         const noteDiv = document.createElement("div")
+        noteDiv.dataset.userMood = user_mood.id
         const moodName = document.createElement("h5")
         const noteP = document.createElement("p")
-        noteP.innerText = `Note: ${mood.note}`
-        moodName.innerText = `Your Mood: ${mood.mood["name"]}`
+        const dateP = document.createElement('p')
+        dateP.innerText = `Date posted: ${user_mood.date_entry}`
+        noteP.innerText = `Note: ${user_mood.note}`
+        moodName.innerText = `Your Mood: ${user_mood.mood["name"]}`
+        const deleteButton = document.createElement('button')
+        deleteButton.innerText = 'Delete note'
+        deleteButton.addEventListener('click', noteDelete)
+        debugger
 
         //appending stuff
-        noteDiv.appendChild(noteP)
-        noteDiv.appendChild(moodName)
+        noteDiv.append(noteP, dateP, moodName, deleteButton)
         allNotesDiv.appendChild(noteDiv)  
     })
+}
+
+function noteDelete(event){
+    /* perhaps a misnomer, because we're not only deleting the note, 
+    we're deleting the entire instance of user_mood */
+   const userMoodId = parseInt(event.target.parentNode.dataset.userMood)
+
+   fetch(`${USER_MOOD_URL}/${userMoodId}`, {
+        method: "DELETE"})
+        .then(res => res.json())
+        .then(event.target.parentNode.remove())
 }
 
 

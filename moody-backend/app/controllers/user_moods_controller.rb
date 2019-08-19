@@ -9,6 +9,11 @@ class UserMoodsController < ApplicationController
         render json: user_mood.to_json(mood_note_serializer_options)
     end
 
+    def destroy
+        user_mood = UserMood.find(params[:id])
+        user_mood.destroy
+        render json: user_mood   
+    end
 
     private 
 

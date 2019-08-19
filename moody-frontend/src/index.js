@@ -73,9 +73,10 @@ function renderNewNote(noteObject){
     const noteDiv = document.createElement("div")
     const moodName = document.createElement("h3")
     const noteP = document.createElement("p")
+    const dateP = document.createElement('p')
+    dateP.innerText = `Date posted: ${noteObject.date_entry}`
     noteP.innerText = `Note: ${noteObject.note}`
     moodName.innerText = `Your Mood: ${noteObject.mood["name"]}`
-    
     noteDiv.append(noteP, moodName)
     notesDiv.appendChild(noteDiv) 
 }

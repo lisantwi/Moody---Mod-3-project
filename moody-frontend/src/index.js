@@ -246,6 +246,7 @@ function showFeed(){
     .then(userMoodArr=> {
         let div = contentDiv()
         div.id = "content"
+        div.classList.add('cont-div')
         
         let divTitle = document.createElement("h3")
         divTitle.innerText = "Your Feed"
@@ -264,6 +265,7 @@ function showFeedNotes(userMood, div){
         const userH3 = document.createElement("h3") 
         const contentP = document.createElement("p") 
         const commentP = document.createElement("p")
+        const likeButton =document.createElement("button")
     
 
 
@@ -279,11 +281,12 @@ function showFeedNotes(userMood, div){
         userH3.innerText = userMood.user.name
         commentP.innerText = "0 Comments"
         contentP.innerText = userMood.note
+        likeButton.innerText = "Like"
         
         //appending elements
         div.appendChild(noteDiv)
         noteDiv.append(dateP, noteBuffer)
-        noteBuffer.append(noteContent, commentP)
+        noteBuffer.append(noteContent, commentP, likeButton)
         noteContent.append(userH3, contentP)
 
         

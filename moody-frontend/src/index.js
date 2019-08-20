@@ -114,7 +114,7 @@ function noteSubmit(){
     let moodRadios = document.getElementsByName('user-mood')
     for (let i=0, length = moodRadios.length; i < length; i++){
         if (moodRadios[i].checked){
-            userMood = parseInt(moodRadios[i].value)
+            userMood = moodRadios[i].value
             break;
         }
     }
@@ -128,11 +128,12 @@ function noteSubmit(){
 
     const newNote = {
         user_id: JSON.parse(localStorage.getItem("user")).id,
-        mood_id: userMood,
+        mood_name: userMood,
         date_entry: noteDate,
         is_public: moodPrivacy,
         note: userMoodNote
     }
+    debugger
     postNote(newNote)
     event.target.reset()
 }
@@ -180,11 +181,11 @@ function buildForm(){
         <h2>Hi, ${JSON.parse(localStorage.getItem("user")).name}! How are you feeling today?</h2>
         <br>
         <br>
-    <input type="radio" name= "user-mood" value="6"> <i class="far fa-laugh fa-2x">Happy</i><br>
-    <input type="radio" name= "user-mood" value="9"> <i class="far fa-smile fa-2x">Calm</i><br>
-    <input type="radio" name= "user-mood" value="8"> <i class="far fa-meh fa-2x">Anxious</i><br>
-    <input type="radio" name= "user-mood" value="7"> <i class="far fa-frown fa-2x">Sad</i><br>
-    <input type="radio" name= "user-mood" value="10"> <i class="far far fa-angry fa-2x">Angry</i><br>
+    <input type="radio" name= "user-mood" value="happy"> <i class="far fa-laugh fa-2x">Happy</i><br>
+    <input type="radio" name= "user-mood" value="calm"> <i class="far fa-smile fa-2x">Calm</i><br>
+    <input type="radio" name= "user-mood" value="anxious"> <i class="far fa-meh fa-2x">Anxious</i><br>
+    <input type="radio" name= "user-mood" value="sad"> <i class="far fa-frown fa-2x">Sad</i><br>
+    <input type="radio" name= "user-mood" value="angry"> <i class="far far fa-angry fa-2x">Angry</i><br>
     </div>
     <br>
     <div class='form-group'>
@@ -242,39 +243,50 @@ function showFeed(){
     burnDownDOM()
     fetch(USER_MOOD_URL)
     .then(resp => resp.json())
-    .then(userMoodArr=> userMoodArr.forEach(showFeedNotes))
+    .then(userMoodArr=> {
+        let div = contentDiv()
+        div.id = "content"
+        
+        let divTitle = document.createElement("h3")
+        divTitle.innerText = "Your Feed"
+        div.appendChild(divTitle)
+        userMoodArr.forEach(userMood => showFeedNotes(userMood,div))})
 }
 
-function showFeedNotes(userMood){
-    let div = contentDiv()
-    let divTitle = document.createElement("h3")
-    divTitle.innerText = "Your Feed"
-    debugger
+function showFeedNotes(userMood, div){
     if (userMood.is_public){
         
             //elements for notecard
         const noteDiv = document.createElement("div")
-        const noteBody = document.createElement("div")
-        const userH5 = document.createElement("h5") 
-        const noteP = document.createElement("p")
-        const likeButton = document.createElement("button")
+        const dateP = document.createElement("p")
+        const noteBuffer = document.createElement("div")
+        const noteContent = document.createElement("div")
+        const userH3 = document.createElement("h3") 
+        const contentP = document.createElement("p") 
+        const commentP = document.createElement("p")
+    
 
 
         //classes for elements
-        noteDiv.classList.add('card', 'w-75' )
-        noteBody.classList.add("card-body")
-        userH5.classList.add("card-title")
-        noteP.classList.add("card-text")
-        likeButton.classList.add("btn", "btn-success")
+        noteDiv.classList.add('post' )
+        dateP.classList.add('details1')
+        noteBuffer.classList.add('buffer')
+        noteContent.classList.add('content')
+        commentP.classList.add('details2')
 
-        noteP.innerText = userMood.note
-        userH5.innerText = userMood.user.name
-        likeButton.innerText = "Like"
+
+        dateP.innerText = userMood.date_entry
+        userH3.innerText = userMood.user.name
+        commentP.innerText = "0 Comments"
+        contentP.innerText = userMood.note
         
         //appending elements
         div.appendChild(noteDiv)
-        noteDiv.appendChild(noteBody)
-        noteBody.append(userH5, noteP, likeButton)
+        noteDiv.append(dateP, noteBuffer)
+        noteBuffer.append(noteContent, commentP)
+        noteContent.append(userH3, contentP)
+
+        
 
     }
 

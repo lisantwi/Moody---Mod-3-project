@@ -5,7 +5,8 @@ class UserMoodsController < ApplicationController
     end 
 
     def create
-        user_mood = UserMood.create(user_mood_params)
+        mood = Mood.find_by(name: params[:mood_name])
+        user_mood = UserMood.create(user_id: params[:user_id], mood_id:mood.id, date_entry: params[:date_entry], note: params[:note], is_public: params[:is_public])
         render json: user_mood.to_json(mood_note_serializer_options)
     end
 

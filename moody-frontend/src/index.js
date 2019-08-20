@@ -3,7 +3,6 @@ const BASE_URL = "http://localhost:3000"
 const USER_MOOD_URL = `${BASE_URL}/user_moods`
 const USER_URL = `${BASE_URL}/users`
 
-
 document.addEventListener('DOMContentLoaded', function(){
     console.log("'ello, is it me you're looking for?")
     // renderForm()
@@ -75,8 +74,7 @@ function burnDownDOM(){
     console.log('burning down the DOM')
     let elem = document.querySelector("main")
     let child = elem.lastElementChild;
-   
- 
+
     while (child) {
         elem.removeChild(child);
         child = elem.lastElementChild;
@@ -102,7 +100,6 @@ function renderForm(){
 
 function noteSubmit(){
     event.preventDefault()
-    // console.log('submitting note...')    
     const userMoodNote = event.target.querySelector('#mood-note').value
     const userMood = parseInt(event.target.querySelector('#user-mood').value)
     let noteDate = event.target.date_entry.value

@@ -17,25 +17,30 @@ function renderNotes(user){
     allNotesDiv.appendChild(titleH2)
 
     user.user_moods.forEach(user_mood => {
+        
         //creating individual note variables
         const noteDiv = document.createElement("div")
         noteDiv.dataset.userMood = user_mood.id
         const moodName = document.createElement("h5")
         const noteP = document.createElement("p")
-        const dateP = document.createElement('p')
+        const dateP = document.createElement('p') 
 
+        // javascript dates why are you like this
         const noteDate = user_mood.date_entry.toString()
         const yyyy = parseInt(noteDate.slice(0,4))
         const mm = parseInt(noteDate.slice(4,6))
         const dd = parseInt(noteDate.slice(6,8))
         const jsDate = new Date(yyyy,mm-1,dd)
-        
-        dateP.innerText = `Date posted: ${jsDate}`
+        const displayDate = jsDate.toUTCString().split(' ').slice(0,4).join(' ') 
+
+        // inner texts
+        dateP.innerText = `Date posted: ${displayDate}`
         noteP.innerText = `Note: ${user_mood.note}`
         moodName.innerText = `Your Mood: ${user_mood.mood["name"]}`
         const deleteButton = document.createElement('button')
         deleteButton.innerText = 'Delete note'
         deleteButton.addEventListener('click', noteDelete)
+
         //appending stuff
         noteDiv.append(noteP, dateP, moodName, deleteButton)
         allNotesDiv.appendChild(noteDiv)  
@@ -53,4 +58,6 @@ function noteDelete(event){
         .then(event.target.parentNode.remove())
 }
 
-
+function editNote(){
+    
+}

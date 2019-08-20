@@ -18,7 +18,7 @@ class UserMoodsController < ApplicationController
     private 
 
     def user_mood_params
-        params.require(:user_mood).permit(:user_id, :mood_id, :date_entry, :note)
+        params.require(:user_mood).permit(:user_id, :mood_id, :date_entry, :note, :is_public)
     end
 
     def mood_note_serializer_options()

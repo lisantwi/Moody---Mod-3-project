@@ -94,7 +94,7 @@ function contentDiv(){
 }
 
 function renderForm(){
-    burnDownDOM()
+    burnDownDOM()    
     let navBar = document.querySelector(".display-nav")
     navBar.style.display = ""
     const noteForm = document.createElement('form')
@@ -120,9 +120,10 @@ function noteSubmit(){
     }
 
     if (event.target.privacy[0].checked){
-        moodPrivacy = event.target.privacy[0].value
+       
+        moodPrivacy = false
     }  else {
-        moodPrivacy = event.target.privacy[1].value
+        moodPrivacy = true
     }
 
     const newNote = {
@@ -239,21 +240,43 @@ function buildForm(){
 
 function showFeed(){
     burnDownDOM()
-    fetch(USER_URL)
+    fetch(USER_MOOD_URL)
     .then(resp => resp.json())
-    .then(userArr=> userArr.forEach(showFeedNotes))
+    .then(userMoodArr=> userMoodArr.forEach(showFeedNotes))
 }
 
-function showFeedNotes(user){
-    const userImage = document.createElement("img")
-    userImage.classList.add("feed-img")
-    userImage.src = 'https://www.freeiconspng.com/uploads/blank-face-person-icon-7.png'
+function showFeedNotes(userMood){
     let div = contentDiv()
-    user.user_moods.forEach( mood => {
-        let noteDiv = document.createElement("div")
-        let userP = document.createElement("p")
-        userP.innerText = mood.note
+    let divTitle = document.createElement("h3")
+    divTitle.innerText = "Your Feed"
+    debugger
+    if (userMood.is_public){
+        
+            //elements for notecard
+        const noteDiv = document.createElement("div")
+        const noteBody = document.createElement("div")
+        const userH5 = document.createElement("h5") 
+        const noteP = document.createElement("p")
+        const likeButton = document.createElement("button")
+
+
+        //classes for elements
+        noteDiv.classList.add('card', 'w-75' )
+        noteBody.classList.add("card-body")
+        userH5.classList.add("card-title")
+        noteP.classList.add("card-text")
+        likeButton.classList.add("btn", "btn-success")
+
+        noteP.innerText = userMood.note
+        userH5.innerText = userMood.user.name
+        likeButton.innerText = "Like"
+        
+        //appending elements
         div.appendChild(noteDiv)
-        noteDiv.append(userImage,userP)
-    })
+        noteDiv.appendChild(noteBody)
+        noteBody.append(userH5, noteP, likeButton)
+
+    }
+
+
 }

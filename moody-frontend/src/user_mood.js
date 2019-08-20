@@ -117,3 +117,13 @@ function buildEditForm(){
     <input type="submit" class="btn btn-primary" id="edit-submit"></input>
     `
 }
+
+function formatDate(usermood){
+    const noteDate = usermood.date_entry.toString()
+    const yyyy = parseInt(noteDate.slice(0,4))
+    const mm = parseInt(noteDate.slice(4,6))
+    const dd = parseInt(noteDate.slice(6,8))
+    const jsDate = new Date(yyyy,mm-1,dd)
+    const displayDate = jsDate.toUTCString().split(' ').slice(0,4).join(' ') 
+    return displayDate
+}

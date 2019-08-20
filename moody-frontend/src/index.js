@@ -246,7 +246,6 @@ function showFeed(){
     .then(userMoodArr=> {
         let div = contentDiv()
         div.id = "content"
-        div.classList.add('cont-div')
         
         let divTitle = document.createElement("h3")
         divTitle.innerText = "Your Feed"
@@ -256,8 +255,8 @@ function showFeed(){
 
 function showFeedNotes(userMood, div){
     if (userMood.is_public){
-        
             //elements for notecard
+
         const noteDiv = document.createElement("div")
         const dateP = document.createElement("p")
         const noteBuffer = document.createElement("div")
@@ -266,24 +265,33 @@ function showFeedNotes(userMood, div){
         const contentP = document.createElement("p") 
         const commentP = document.createElement("p")
         const likeButton =document.createElement("button")
+        likeButton.classList.add('btn','btn-primary')
     
 
 
         //classes for elements
-        noteDiv.classList.add('post' )
-        dateP.classList.add('details1')
-        noteBuffer.classList.add('buffer')
-        noteContent.classList.add('content')
-        commentP.classList.add('details2')
+        noteDiv.classList.add("card")
+        div.classList.add("card-columns")
+        userH3.classList.add("card-title")
+        noteContent.classList.add("card-body")
+        contentP.classList.add("card-text")
+ 
+     
+        const noteDate = userMood.date_entry.toString()
+        const yyyy = parseInt(noteDate.slice(0,4))
+        const mm = parseInt(noteDate.slice(4,6))
+        const dd = parseInt(noteDate.slice(6,8))
+        const jsDate = new Date(yyyy,mm-1,dd)
+        const displayDate = jsDate.toUTCString().split(' ').slice(0,4).join(' ') 
 
-
-        dateP.innerText = userMood.date_entry
+        dateP.innerText = displayDate
         userH3.innerText = userMood.user.name
         commentP.innerText = "0 Comments"
         contentP.innerText = userMood.note
         likeButton.innerText = "Like"
         
         //appending elements
+
         div.appendChild(noteDiv)
         noteDiv.append(dateP, noteBuffer)
         noteBuffer.append(noteContent, commentP, likeButton)

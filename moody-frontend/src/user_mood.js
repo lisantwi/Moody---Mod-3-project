@@ -66,14 +66,44 @@ function deleteNote(event){
 }
 
 function editNote(){
-    const userMoodId = parseInt(event.target.parentNode.dataset.userMood)
     const notesDiv = event.target.parentNode
     const editForm = document.createElement('form')
     editForm.innerHTML = buildEditForm()
-
+    
     notesDiv.appendChild(editForm)
+    
+    const userMoodId = parseInt(event.target.parentNode.dataset.userMood)
 
-    editForm.addEventListener('submit', console.log('hi')) 
+    editForm.addEventListener('submit', (event) => handleEdit(event, userMoodId)) 
+}
+
+function handleEdit(event, userMoodId){
+    event.preventDefault()
+
+    const updatedNote = event.target.querySelector('#edited-note').value
+
+    const updatedData = {
+        user_id: JSON.parse(localStorage.getItem("user")).id,
+        note: updatedNote
+    }
+    patchNote(updatedData, event, userMoodId)
+}
+
+function patchNote(updatedData, event, userMoodId) {
+    const configObject = {
+        method: 'PATCH',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(updatedData)
+    }
+
+    fetch(`${USER_MOOD_URL}/${userMoodId}`, configObject)
+    .then(res => res.json())
+    .then(updated => {
+        event.target.parentNode.querySelector('.note-content').querySelector('span').innerText = updated.note
+        event.target.remove()
+    })
 }
 
 function buildEditForm(){

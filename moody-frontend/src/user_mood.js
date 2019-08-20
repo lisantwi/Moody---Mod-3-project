@@ -18,12 +18,14 @@ function renderNotes(user){
 
     user.user_moods.forEach(user_mood => {
         
-        //creating individual note variables
+        //creating individual note elements
         const noteDiv = document.createElement("div")
         noteDiv.dataset.userMood = user_mood.id
         const moodName = document.createElement("h5")
         const noteP = document.createElement("p")
         const dateP = document.createElement('p') 
+        const deleteButton = document.createElement('button')
+        const editButton = document.createElement('button')
 
         // javascript dates why are you like this
         const noteDate = user_mood.date_entry.toString()
@@ -34,20 +36,25 @@ function renderNotes(user){
         const displayDate = jsDate.toUTCString().split(' ').slice(0,4).join(' ') 
 
         // inner texts
-        dateP.innerText = `Date posted: ${displayDate}`
-        noteP.innerText = `Note: ${user_mood.note}`
+        dateP.innerHTML = `Date posted: <span>${displayDate}</span>`
+        dateP.classList.add('note-date')
+        noteP.innerHTML = `Note: <span>${user_mood.note}</span>`
+        noteP.classList.add('note-content')
         moodName.innerText = `Your Mood: ${user_mood.mood["name"]}`
-        const deleteButton = document.createElement('button')
         deleteButton.innerText = 'Delete note'
-        deleteButton.addEventListener('click', noteDelete)
+        editButton.innerText = 'Edit note'
 
+        // eventListeners
+        deleteButton.addEventListener('click', deleteNote)
+        editButton.addEventListener('click', editNote)
+        
         //appending stuff
-        noteDiv.append(noteP, dateP, moodName, deleteButton)
+        noteDiv.append(noteP, dateP, moodName, deleteButton, editButton)
         allNotesDiv.appendChild(noteDiv)  
     })
 }
 
-function noteDelete(event){
+function deleteNote(event){
     /* perhaps a misnomer, because we're not only deleting the note, 
     we're deleting the entire instance of user_mood, of which note is an attribute */
    const userMoodId = parseInt(event.target.parentNode.dataset.userMood)
@@ -59,5 +66,20 @@ function noteDelete(event){
 }
 
 function editNote(){
-    
+    const userMoodId = parseInt(event.target.parentNode.dataset.userMood)
+    const notesDiv = event.target.parentNode
+    const editForm = document.createElement('form')
+    editForm.innerHTML = buildEditForm()
+
+    notesDiv.appendChild(editForm)
+
+    editForm.addEventListener('submit', console.log('hi')) 
+}
+
+function buildEditForm(){
+    return `
+    <label for='edit-form'>Edit your note:</label><br>
+    <textarea id="edited-note">${event.target.parentNode.querySelector('.note-content').querySelector('span').innerText}</textarea><br>
+    <input type="submit" class="btn btn-primary" id="edit-submit"></input>
+    `
 }

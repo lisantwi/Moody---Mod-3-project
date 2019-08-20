@@ -1,4 +1,4 @@
 class Activity < ApplicationRecord
   belongs_to :user
-  # belongs_to :mood_id
+  belongs_to :mood
 end

@@ -23,11 +23,6 @@ document.addEventListener('DOMContentLoaded', function(){
     // const noteDiv = document.querySelector('.user-notes')
 })
 
-function profileLoad(){
-    burnDownDOM()
-    console.log('so you wanna see your profile')
-}
-
 function loginForm(){
     // event.preventDefault()
     burnDownDOM()
@@ -155,18 +150,6 @@ function postNote(newNote){
     .then(fetchAllNotes)
 }
 
-// function renderNewNote(noteObject){
-//     const notesDiv = document.querySelector('.notes-div') 
-//     const noteDiv = document.createElement("div")
-//     const moodName = document.createElement("h3")
-//     const noteP = document.createElement("p")
-//     noteP.innerText = noteObject.note
-//     moodName.innerText = noteObject.mood["name"] 
-    
-//     noteDiv.append(noteP, moodName)
-//     notesDiv.appendChild(noteDiv) 
-// }
-
 function todaysDate(){
     let today = new Date()
     let dd = String(today.getDate()).padStart(2, '0')
@@ -208,37 +191,6 @@ function buildForm(){
     `
 }
 
-// function buildActivitiesForm(){
-//     return `
-//     <div class='form-group'>
-//         <label for='user-mood'>What's your mood like today?</label>
-//         <select class='form-control col-sm-8 form-control-lg'
-//             id='user-mood'>
-//             <option value='9'>Calm</option>
-//             <option value='6'>Happy</option>
-//             <option value='8'>Anxious</option>
-//             <option value='7'>Sad</option>
-//             <option value='10'>Angry</option>
-//         </select>
-//     </div>
-//     <br>
-//     <div class='form-group'>
-//         <label for='date_entry'>Mood date:</label>
-//         <br>  
-//         <input type='date' id='date_entry' name='date_entry' value=${todaysDate()} min='2018-01-01' max=${todaysDate()}> 
-//     </div> 
-//     <br>
-//     <div class='form-group'>
-//         <label for='mood-note'>Note your mood <3</label>
-//         <br>
-//         <textarea class="form-control col-sm-8" id='mood-note'
-//         placeholder="Write a little about how you're feeling today" 
-//         rows="15"></textarea>
-//     <br>
-//     <input type="submit" class="btn btn-primary" id="edit-submit"></input>    
-//     `
-// }
-
 function showFeed(){
     burnDownDOM()
     fetch(USER_MOOD_URL)
@@ -267,15 +219,12 @@ function showFeedNotes(userMood, div){
         const commentP = document.createElement("p")
         const likeButton =document.createElement("button")
     
-
-
         //classes for elements
         noteDiv.classList.add('post' )
         dateP.classList.add('details1')
         noteBuffer.classList.add('buffer')
         noteContent.classList.add('content')
         commentP.classList.add('details2')
-
 
         dateP.innerText = userMood.date_entry
         userH3.innerText = userMood.user.name
@@ -288,10 +237,5 @@ function showFeedNotes(userMood, div){
         noteDiv.append(dateP, noteBuffer)
         noteBuffer.append(noteContent, commentP, likeButton)
         noteContent.append(userH3, contentP)
-
-        
-
     }
-
-
 }

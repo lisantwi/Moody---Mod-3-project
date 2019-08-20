@@ -109,7 +109,7 @@ function noteSubmit(){
     let userMood = ''
     let noteDate = event.target.date_entry.value
     let moodPrivacy = ''
-    noteDate = parseInt(noteDate.split('-').join('')) // we can call ourselves developers now 
+    noteDate = parseInt(noteDate.split('-').join(''))
 
     let moodRadios = document.getElementsByName('user-mood')
     for (let i=0, length = moodRadios.length; i < length; i++){
@@ -179,12 +179,12 @@ function buildForm(){
     <div class='form-group'>
         <h2>Hi, ${JSON.parse(localStorage.getItem("user")).name}! How are you feeling today?</h2>
         <br>
-<br>
-    <input type="radio" name= "user-mood" value="1"> <i class="far fa-laugh fa-2x">Happy</i><br>
-    <input type="radio" name= "user-mood" value="4"> <i class="far fa-smile fa-2x">Calm</i><br>
-    <input type="radio" name= "user-mood" value="3"> <i class="far fa-meh fa-2x">Anxious</i><br>
-    <input type="radio" name= "user-mood" value="2"> <i class="far fa-frown fa-2x">Sad</i><br>
-    <input type="radio" name= "user-mood" value="5"> <i class="far far fa-angry fa-2x">Angry</i><br>
+        <br>
+    <input type="radio" name= "user-mood" value="6"> <i class="far fa-laugh fa-2x">Happy</i><br>
+    <input type="radio" name= "user-mood" value="9"> <i class="far fa-smile fa-2x">Calm</i><br>
+    <input type="radio" name= "user-mood" value="8"> <i class="far fa-meh fa-2x">Anxious</i><br>
+    <input type="radio" name= "user-mood" value="7"> <i class="far fa-frown fa-2x">Sad</i><br>
+    <input type="radio" name= "user-mood" value="10"> <i class="far far fa-angry fa-2x">Angry</i><br>
     </div>
     <br>
     <div class='form-group'>

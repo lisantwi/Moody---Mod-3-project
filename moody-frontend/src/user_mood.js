@@ -35,7 +35,7 @@ function renderNotes(user){
         const jsDate = new Date(yyyy,mm-1,dd)
         const displayDate = jsDate.toUTCString().split(' ').slice(0,4).join(' ') 
 
-        // inner texts
+        // inner texts and classes 
         dateP.innerHTML = `Date posted: <span>${displayDate}</span>`
         dateP.classList.add('note-date')
         noteP.innerHTML = `Note: <span>${user_mood.note}</span>`
@@ -43,10 +43,11 @@ function renderNotes(user){
         moodName.innerText = `Your Mood: ${user_mood.mood["name"]}`
         deleteButton.innerText = 'Delete note'
         editButton.innerText = 'Edit note'
+        editButton.classList.add('edit-button')
 
         // eventListeners
         deleteButton.addEventListener('click', deleteNote)
-        editButton.addEventListener('click', editNote)
+        editButton.addEventListener('click', showEditForm)
         
         //appending stuff
         noteDiv.append(noteP, dateP, moodName, deleteButton, editButton)
@@ -65,7 +66,8 @@ function deleteNote(event){
         .then(event.target.parentNode.remove())
 }
 
-function editNote(){
+function showEditForm(){
+    event.target.disabled = true
     const notesDiv = event.target.parentNode
     const editForm = document.createElement('form')
     editForm.innerHTML = buildEditForm()
@@ -102,6 +104,8 @@ function patchNote(updatedData, event, userMoodId) {
     .then(res => res.json())
     .then(updated => {
         event.target.parentNode.querySelector('.note-content').querySelector('span').innerText = updated.note
+        const editButton = event.target.parentNode.querySelector('.edit-button')
+        editButton.disabled = false 
         event.target.remove()
     })
 }

@@ -6,9 +6,12 @@ const USER_URL = `${BASE_URL}/users`
 document.addEventListener('DOMContentLoaded', function(){
     console.log("'ello, is it me you're looking for?")
     // renderForm()
-    let navBar = document.querySelector(".display-nav")
+    let navBar = document.querySelector(".navbar-primary")
     navBar.style.display="none"
     loginForm()
+
+    const header = document.querySelector('header')
+    header.style.display ='none'
 
     const notesLink = document.querySelector('#notes-link')
     notesLink.addEventListener('click', fetchAllNotes)
@@ -31,28 +34,76 @@ function profileLoad(){
 function loginForm(){
     // event.preventDefault()
     burnDownDOM()
-    const main = document.querySelector("main")
-    const formDiv = document.createElement("div")
-    const form = document.createElement("form")
+    let div = contentDiv()
+    const starDiv = document.createElement('div')
+    const starDiv2 = document.createElement('div')
+    const wrapDiv = document.createElement('div')
+    const centerDiv = document.createElement('div')
+    const headerDiv = document.createElement('div')
+    const h2Title = document.createElement('h2')
+    const h4Prompt = document.createElement('h4')
+    const formDiv = document.createElement('div')
+    const form = document.createElement('form')
     const formInput = document.createElement("input")
     formInput.setAttribute("type", "text")
-    formInput.innerText = "Enter your name"
 
-    const h1Text = document.createElement("h1")
-    h1Text.innerText = "Enter your Name"
-    main.appendChild(formDiv)
+
+    //adding classes
+    starDiv.classList.add('stars1')
+    starDiv2.classList.add('stars2')
+    wrapDiv.classList.add('login-wrap')
+    centerDiv.classList.add('center')
+    headerDiv.classList.add('header')
+    h2Title.classList.add('animation', 'a1')
+    h4Prompt.classList.add('animation', 'a2')
+    formDiv.classList.add('form')
+    form.innerHTML = `<input type="text" name="username" class="form-field animation a3" placeholder="Enter your username"><br><br>
+    <button id=login-btn class="animation a6 type="submit" >LOGIN</button>`
+    h4Prompt.innerText = 'Enter your existing username or create a new one.'
     
-    form.appendChild(formInput)
-    formDiv.classList.add('main-content')
-    const submitButton = document.createElement("button")
-    submitButton.innerHTML = "Submit"
-    submitButton.setAttribute("type", "submit")
 
-    formDiv.append(h1Text, form)
-    form.append(formInput, submitButton)
 
+    h2Title.innerHTML = ` <h2 style="font-size:50px;" class="animation a1">Moody<i class="far fa-hand-peace"></i></h2>`
+    
+
+    div.append(starDiv, starDiv2, wrapDiv)
+    wrapDiv.append(centerDiv)
+    centerDiv.append(headerDiv, formDiv)
+    headerDiv.append(h2Title,h4Prompt)
+    formDiv.appendChild(form)
     form.addEventListener("submit", findOrCreate)
+
+
+   
+
+    // const main = document.querySelector("main")
+    // const formDiv = document.createElement("div")
+    // const form = document.createElement("form")
+    // const formInput = document.createElement("input")
+    // formInput.setAttribute("type", "text")
+    // formInput.innerText = "Enter your name"
+
+    // const h1Text = document.createElement("h1")
+    // h1Text.innerText = "Enter your Name"
+    // main.appendChild(formDiv)
+    
+    // form.appendChild(formInput)
+    // formDiv.classList.add('main-content')
+    // const submitButton = document.createElement("button")
+    // submitButton.innerHTML = "Submit"
+    // submitButton.setAttribute("type", "submit")
+
+    // formDiv.append(h1Text, form)
+    // form.append(formInput, submitButton)
+
+
 }
+
+// function loggingIn(){
+//     const divCenter = document.querySelector('div-center')
+//     debugger
+//     form.addEventListener("submit", findOrCreate)
+// }
 
 function findOrCreate(){
     event.preventDefault()
@@ -94,9 +145,17 @@ function contentDiv(){
 }
 
 function renderForm(){
-    burnDownDOM()    
-    let navBar = document.querySelector(".display-nav")
+    burnDownDOM() 
+
+    const body = document.querySelector('body') 
+    body.style.background =  "white"
+
+    let navBar = document.querySelector(".navbar-primary")
     navBar.style.display = ""
+
+    const header = document.querySelector('header')
+    header.style.display =''
+
     const noteForm = document.createElement('form')
     noteForm.innerHTML = buildForm()
     noteForm.addEventListener('submit', noteSubmit)
@@ -181,11 +240,11 @@ function buildForm(){
         <h2>Hi, ${JSON.parse(localStorage.getItem("user")).name}! How are you feeling today?</h2>
         <br>
         <br>
-    <input type="radio" name= "user-mood" value="happy"> <i class="far fa-laugh fa-2x">Happy</i><br>
-    <input type="radio" name= "user-mood" value="calm"> <i class="far fa-smile fa-2x">Calm</i><br>
-    <input type="radio" name= "user-mood" value="anxious"> <i class="far fa-meh fa-2x">Anxious</i><br>
-    <input type="radio" name= "user-mood" value="sad"> <i class="far fa-frown fa-2x">Sad</i><br>
-    <input type="radio" name= "user-mood" value="angry"> <i class="far far fa-angry fa-2x">Angry</i><br>
+    <input type="radio" name= "user-mood" value="happy"> <i class="far fa-laugh fa-2x"></i>Happy<br>
+    <input type="radio" name= "user-mood" value="calm"> <i class="far fa-smile fa-2x"></i>Calm<br>
+    <input type="radio" name= "user-mood" value="anxious"> <i class="far fa-meh fa-2x"></i>Anxious<br>
+    <input type="radio" name= "user-mood" value="sad"> <i class="far fa-frown fa-2x"></i>Sad<br>
+    <input type="radio" name= "user-mood" value="angry"> <i class="far far fa-angry fa-2x"></i>Angry<br>
     </div>
     <br>
     <div class='form-group'>
@@ -264,8 +323,8 @@ function showFeedNotes(userMood, div){
         const userH3 = document.createElement("h3") 
         const contentP = document.createElement("p") 
         const commentP = document.createElement("p")
-        const likeButton =document.createElement("button")
-        likeButton.classList.add('btn','btn-primary')
+        const heartButton = document.createElement("i")
+        heartButton.classList.add('fas','fa-heart', 'fa-2x')
     
 
 
@@ -288,13 +347,14 @@ function showFeedNotes(userMood, div){
         userH3.innerText = userMood.user.name
         commentP.innerText = "0 Comments"
         contentP.innerText = userMood.note
-        likeButton.innerText = "Like"
+
+
         
         //appending elements
 
         div.appendChild(noteDiv)
         noteDiv.append(dateP, noteBuffer)
-        noteBuffer.append(noteContent, commentP, likeButton)
+        noteBuffer.append(noteContent, heartButton, commentP)
         noteContent.append(userH3, contentP)
 
         

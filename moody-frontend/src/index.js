@@ -21,13 +21,6 @@ document.addEventListener('DOMContentLoaded', function(){
     feedLink.addEventListener('click', showFeed)
 
     // const noteDiv = document.querySelector('.user-notes')
-    
-    const loginSpan = document.querySelector("#login")
-
-    let navBar = document.querySelector(".display-nav")
-    navBar.style.display="none"
-    loginForm()
-    
 })
 
 function profileLoad(){
@@ -126,13 +119,11 @@ function noteSubmit(){
         }
     }
 
-
     if (event.target.privacy[0].checked){
         moodPrivacy = event.target.privacy[0].value
     }  else {
         moodPrivacy = event.target.privacy[1].value
     }
-
 
     const newNote = {
         user_id: JSON.parse(localStorage.getItem("user")).id,
@@ -245,6 +236,7 @@ function buildForm(){
 //     <input type="submit" class="btn btn-primary" id="edit-submit"></input>    
 //     `
 // }
+
 function showFeed(){
     burnDownDOM()
     fetch(USER_URL)
@@ -263,7 +255,5 @@ function showFeedNotes(user){
         userP.innerText = mood.note
         div.appendChild(noteDiv)
         noteDiv.append(userImage,userP)
-
-    }
-    )
+    })
 }

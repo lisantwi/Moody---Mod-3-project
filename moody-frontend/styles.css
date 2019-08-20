@@ -113,10 +113,13 @@
 	padding-bottom: 11px;
 }
 	#content .post {
-		float: left;
 		width: 315px;
-		padding: 11px 10px 0 0;
-	}
+    padding: 11px 10px 0 0;
+    display: inline-block;
+  }
+  .cont-div{
+    display: flex;
+  }
 		#content .post .details1 {
 			background-color: #ECEBEB;
 			color: #808080;

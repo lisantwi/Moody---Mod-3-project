@@ -16,6 +16,18 @@ document.addEventListener('DOMContentLoaded', function(){
     homeLink.addEventListener('click', renderForm)
     const profileLink = document.querySelector('#user-profile')
     profileLink.addEventListener('click', profileLoad)    
+
+    const feedLink = document.querySelector('#feed-link')
+    feedLink.addEventListener('click', showFeed)
+
+    // const noteDiv = document.querySelector('.user-notes')
+    
+    const loginSpan = document.querySelector("#login")
+
+    let navBar = document.querySelector(".display-nav")
+    navBar.style.display="none"
+    loginForm()
+    
 })
 
 function profileLoad(){
@@ -101,14 +113,32 @@ function renderForm(){
 function noteSubmit(){
     event.preventDefault()
     const userMoodNote = event.target.querySelector('#mood-note').value
-    const userMood = parseInt(event.target.querySelector('#user-mood').value)
+    let userMood = ''
     let noteDate = event.target.date_entry.value
+    let moodPrivacy = ''
     noteDate = parseInt(noteDate.split('-').join('')) // we can call ourselves developers now 
+
+    let moodRadios = document.getElementsByName('user-mood')
+    for (let i=0, length = moodRadios.length; i < length; i++){
+        if (moodRadios[i].checked){
+            userMood = parseInt(moodRadios[i].value)
+            break;
+        }
+    }
+
+
+    if (event.target.privacy[0].checked){
+        moodPrivacy = event.target.privacy[0].value
+    }  else {
+        moodPrivacy = event.target.privacy[1].value
+    }
+
 
     const newNote = {
         user_id: JSON.parse(localStorage.getItem("user")).id,
         mood_id: userMood,
         date_entry: noteDate,
+        is_public: moodPrivacy,
         note: userMoodNote
     }
     postNote(newNote)
@@ -155,15 +185,14 @@ function todaysDate(){
 function buildForm(){
     return `
     <div class='form-group'>
-        <label for='user-mood'>What's your mood like today?</label>
-        <select class='form-control col-sm-8 form-control-lg'
-            id='user-mood'>
-            <option value='9'>Calm</option>
-            <option value='6'>Happy</option>
-            <option value='8'>Anxious</option>
-            <option value='7'>Sad</option>
-            <option value='10'>Angry</option>
-        </select>
+        <h2>Hi, ${JSON.parse(localStorage.getItem("user")).name}! How are you feeling today?</h2>
+        <br>
+<br>
+    <input type="radio" name= "user-mood" value="1"> <i class="far fa-laugh fa-2x">Happy</i><br>
+    <input type="radio" name= "user-mood" value="4"> <i class="far fa-smile fa-2x">Calm</i><br>
+    <input type="radio" name= "user-mood" value="3"> <i class="far fa-meh fa-2x">Anxious</i><br>
+    <input type="radio" name= "user-mood" value="2"> <i class="far fa-frown fa-2x">Sad</i><br>
+    <input type="radio" name= "user-mood" value="5"> <i class="far far fa-angry fa-2x">Angry</i><br>
     </div>
     <br>
     <div class='form-group'>
@@ -179,6 +208,9 @@ function buildForm(){
         placeholder="Write a little about how you're feeling today" 
         rows="15"></textarea>
     <br>
+    <input type="radio" value="false" name="privacy" checked="checked"> Private<br>
+    <input type="radio" name="privacy" value="true">Public<br>
+    
     <input type="submit" class="btn btn-primary" id="edit-submit"></input>
     `
 }
@@ -213,3 +245,25 @@ function buildForm(){
 //     <input type="submit" class="btn btn-primary" id="edit-submit"></input>    
 //     `
 // }
+function showFeed(){
+    burnDownDOM()
+    fetch(USER_URL)
+    .then(resp => resp.json())
+    .then(userArr=> userArr.forEach(showFeedNotes))
+}
+
+function showFeedNotes(user){
+    const userImage = document.createElement("img")
+    userImage.classList.add("feed-img")
+    userImage.src = 'https://www.freeiconspng.com/uploads/blank-face-person-icon-7.png'
+    let div = contentDiv()
+    user.user_moods.forEach( mood => {
+        let noteDiv = document.createElement("div")
+        let userP = document.createElement("p")
+        userP.innerText = mood.note
+        div.appendChild(noteDiv)
+        noteDiv.append(userImage,userP)
+
+    }
+    )
+}

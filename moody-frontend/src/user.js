@@ -6,10 +6,14 @@ function profileLoad(){
     // loading text on top of
     const main = document.querySelector('main')
     main.innerHTML = loadHeader()
+
+    const profileDiv = document.createElement('div')
+    profileDiv.classList.add('col-md-6')
     const profileP = document.createElement('p')
     profileP.innerHTML = loadProfileMessage()
     profileP.classList.add('profile-message')
-    contentDiv().appendChild(profileP)
+    profileDiv.appendChild(profileP)
+    contentDiv().appendChild(profileDiv)
 
     // activities form 
     const activForm = document.createElement('form')
@@ -40,6 +44,9 @@ function newActivity(){
     const userMood = event.target['mood-entry'].value
     const userActivity = event.target['activity-entry'].value
 
+    if (userActivity === ''){
+        alert('Please fill out an activity :)')
+    } else {
     const newActivity = {
         user_id: JSON.parse(localStorage.getItem("user")).id,
         mood_name: userMood,
@@ -47,6 +54,7 @@ function newActivity(){
     }
     postActivity(newActivity)
     event.target.reset()
+    }
 }
 
 function postActivity(newActivity){
@@ -121,7 +129,7 @@ function renderActivities(userObj){
 
 function createSearchBar(){
     return `
-    <input type="text" id="myInput" onkeyup="searchActivity()" placeholder="Search for activities by mood">
+    <input type="text" class="col-md-6" id="myInput" onkeyup="searchActivity()" placeholder="Filter activities by mood">
     `
 }
 

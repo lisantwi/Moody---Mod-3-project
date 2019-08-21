@@ -32,7 +32,11 @@ class UsersController < ApplicationController
                 },
                 :activities => {
                     :only => :name,
-                    :except => [:created_at, :updated_at]
+                    :include => {
+                        :mood => {
+                            :only => :name
+                            }
+                        }
                 }
         },
             :except => [:created_at, :updated_at]

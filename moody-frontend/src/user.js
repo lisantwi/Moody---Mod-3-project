@@ -74,3 +74,8 @@ function buildActivitiesForm(){
     <input type="submit" class="btn btn-primary" id="edit-submit"></input>    
     `
 }
+
+// render a user's favorite activities
+function fetchActivities(){
+    
+}

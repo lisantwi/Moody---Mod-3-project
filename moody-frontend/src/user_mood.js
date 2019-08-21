@@ -17,7 +17,6 @@ function renderNotes(user){
     allNotesDiv.appendChild(titleH2)
 
     user.user_moods.forEach(user_mood => {
-        
         //creating individual note elements
         const noteDiv = document.createElement("div")
         noteDiv.dataset.userMood = user_mood.id
@@ -113,7 +112,7 @@ function patchNote(updatedData, event, userMoodId) {
 function buildEditForm(){
     return `
     <label for='edit-form'>Edit your note:</label><br>
-    <textarea class="form-control col-sm-8" rows='15' id="edited-note">${event.target.parentNode
+    <textarea class="form-control col-sm-8" rows="15" id="edited-note">${event.target.parentNode
         .querySelector('.note-content').querySelector('span').innerText}
     </textarea>
     <br>

@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   post 'users', to: 'users#create'
   get 'users', to: 'users#index'
   get 'moods', to: 'moods#index'
-  get 'users/:id', to: 'users#show'
+  get 'users/:id/', to: 'users#show'
+  get 'users/:id/note', to: 'users#note'
   resources :activities, only: [:index, :create]
  # resources :moods
 end

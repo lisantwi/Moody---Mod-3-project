@@ -17,6 +17,10 @@ function profileLoad(){
     activForm.addEventListener('submit', newActivity)
     contentDiv().appendChild(activForm)
 
+    const searchBar = document.createElement('form')
+    searchBar.innerHTML = createSearchBar()
+    contentDiv().appendChild(searchBar)
+
     fetchActivities()
 }
 
@@ -56,24 +60,26 @@ function postActivity(newActivity){
     
     fetch(`${BASE_URL}/activities`, configObject)
     .then(res => res.json())
-    .then(appendNewActivity)
+    .then(renderNewActivity)
 }
 
-function appendNewActivity(activity){
+function renderNewActivity(activity){
     console.log(activity)
     const activityUl = document.querySelector('.activity-list')
     if (activityUl) {
-        const activityLi = document.createElement('li')
-        activityLi.innerHTML = `When I'm feeling ${activity.mood.name}, I like to ${activity.name}`
-        activityUl.appendChild(activityLi)
+        appendNewActivity(activity, activityUl)
     } else {
         const activityUl = document.createElement('ul')
         activityUl.classList.add('activity-list')
         contentDiv().appendChild(activityUl)
-        const activityLi = document.createElement('li')
-        activityLi.innerHTML = `When I'm feeling ${activity.mood.name}, I like to ${activity.name}`
-        activityUl.appendChild(activityLi)
+        appendNewActivity(activity, activityUl)
     }
+}
+
+function appendNewActivity(activity, activityUl){
+    const activityLi = document.createElement('li')
+    activityLi.innerHTML = `When I'm feeling ${activity.mood.name}, I like to ${activity.name}`
+    activityUl.appendChild(activityLi)
 }
 
 function buildActivitiesForm(){
@@ -94,7 +100,6 @@ function buildActivitiesForm(){
     `
 }
 
-// render a user's favorite activities
 function fetchActivities(){
     const id = JSON.parse(localStorage.getItem("user")).id
     fetch(`${USER_URL}/${id}`)
@@ -107,9 +112,30 @@ function renderActivities(userObj){
     activityUl.classList.add('activity-list')
     contentDiv().appendChild(activityUl)
     
-    userObj.activities.forEach(act => {
+    userObj.activities.forEach(activity => {
         const activityLi = document.createElement('li')
-        activityLi.innerHTML = `When I'm feeling ${act.mood.name}, I like to ${act.name}`
+        activityLi.innerHTML = `When I'm feeling ${activity.mood.name}, I like to ${activity.name}`
         activityUl.appendChild(activityLi)
     })
+}
+
+function createSearchBar(){
+    return `
+    <input type="text" id="myInput" onkeyup="searchActivity()" placeholder="Search for activities by mood">
+    `
+}
+
+function searchActivity() {
+    const input = document.getElementById("myInput") 
+    const filter = input.value.toUpperCase();
+    const ul = document.querySelector('.activity-list');
+    const li = ul.querySelectorAll("li");
+    for (i = 0; i < li.length; i++) {
+        txtValue = li[i].textContent || li[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
 }

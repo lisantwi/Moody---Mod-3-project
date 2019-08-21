@@ -8,5 +8,6 @@ Rails.application.routes.draw do
   get 'users', to: 'users#index'
   get 'moods', to: 'moods#index'
   get 'users/:id', to: 'users#show'
+  resources :activities, only: [:index, :create]
  # resources :moods
 end

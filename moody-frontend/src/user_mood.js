@@ -113,8 +113,8 @@ function patchNote(updatedData, event, userMoodId) {
 function buildEditForm(){
     return `
     <label for='edit-form'>Edit your note:</label><br>
-    <textarea class="form-control col-sm-8" rows='15' ="edited-note">
-    ${event.target.parentNode.querySelector('.note-content').querySelector('span').innerText}
+    <textarea class="form-control col-sm-8" rows='15' id="edited-note">${event.target.parentNode
+        .querySelector('.note-content').querySelector('span').innerText}
     </textarea>
     <br>
     <input type="submit" class="btn btn-primary" id="edit-submit"></input>

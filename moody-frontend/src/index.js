@@ -117,7 +117,7 @@ function findOrCreate(){
     .then(user => {
         localStorage.setItem("user", JSON.stringify(user))
         burnDownDOM()
-        renderForm().addEventListener('submit', noteSubmit)
+        renderForm()
     })
 }
 
@@ -139,22 +139,48 @@ function contentDiv(){
     return main.appendChild(div)
 }
 
+
 function renderForm(){
     burnDownDOM() 
 
-    const body = document.querySelector('body') 
-    body.style.background =  "white"
+    fetch(`${USER_URL}/${JSON.parse(localStorage.getItem("user")).id}/note`)
+    .then(resp => resp.json())
+    .then(data => {
+        let div = contentDiv()
+        const body = document.querySelector('body') 
+        body.style.background =  "white"
+    
+        let navBar = document.querySelector(".navbar-primary")
+        navBar.style.display = ""
+    
+        const header = document.querySelector('header')
+        header.style.display =''
 
-    let navBar = document.querySelector(".navbar-primary")
-    navBar.style.display = ""
+        const noteForm = document.createElement('form')
+        const messageDiv = document.createElement("div")
+        const noteH2 = document.createElement('h2')
+        div.appendChild(messageDiv)
+        messageDiv.appendChild(noteH2)
 
-    const header = document.querySelector('header')
-    header.style.display =''
+        noteForm.innerHTML = buildForm()
+        div.appendChild(noteForm)
+        noteForm.addEventListener('submit', noteSubmit)
 
-    const noteForm = document.createElement('form')
-    noteForm.innerHTML = buildForm()
-    noteForm.addEventListener('submit', noteSubmit)
-    return contentDiv().appendChild(noteForm)
+        if (data.note){
+           noteH2.innerText = `Your mood for today is: ${data.mood.name}`
+        } else{
+            noteH2.innerText = 'Hi NAME, How are you feeling today?'
+        }
+ 
+    }
+        
+
+    )
+
+    // fetch(`${USER_URL}/${id}`)
+    // .then(resp => resp.json())
+
+ 
 }
 
 function noteSubmit(){
@@ -185,9 +211,9 @@ function noteSubmit(){
         mood_name: userMood,
         date_entry: noteDate,
         is_public: moodPrivacy,
-        note: userMoodNote
+        note: userMoodNote,
+        likes: 0
     }
-    debugger
     postNote(newNote)
     event.target.reset()
 }
@@ -206,7 +232,13 @@ function postNote(newNote){
     
     fetch(USER_MOOD_URL, configObject)
     .then(res => res.json())
-    .then(fetchAllNotes)
+    .then(data => {
+        if (data.message){
+            alert(data.message)
+        } else {
+            fetchAllNotes
+        }
+    })
 }
 
 function todaysDate(){
@@ -220,7 +252,6 @@ function todaysDate(){
 function buildForm(){
     return `
     <div class='form-group'>
-        <h2>Hi, ${JSON.parse(localStorage.getItem("user")).name}! How are you feeling today?</h2>
         <br>
         <br>
     <input type="radio" name= "user-mood" value="happy"> <i class="far fa-laugh fa-2x"></i>Happy<br>
@@ -276,14 +307,19 @@ function showFeedNotes(userMood, div){
         const contentP = document.createElement("p") 
         const commentP = document.createElement("p")
         const heartButton = document.createElement("i")
+        const likeSpan = document.createElement("span")
         heartButton.classList.add('fas','fa-heart', 'fa-2x')
+        heartButton.id = 'heart'
+        
     
         //classes for elements
         noteDiv.classList.add("card")
         div.classList.add("card-columns")
         userH3.classList.add("card-title")
         noteContent.classList.add("card-body")
+        commentP.classList.add("comment-p")
         contentP.classList.add("card-text")
+        likeSpan.id = "likes"
  
      
         const noteDate = userMood.date_entry.toString()
@@ -295,8 +331,12 @@ function showFeedNotes(userMood, div){
 
         dateP.innerText = displayDate
         userH3.innerText = userMood.user.name
-        commentP.innerText = "0 Comments"
+        commentP.innerText = `Likes: `
         contentP.innerText = userMood.note
+        likeSpan.innerText = userMood.likes
+        commentP.appendChild(likeSpan)
+
+        heartButton.addEventListener('click', event => likeNote(event, userMood, likeSpan))
 
 
         
@@ -307,4 +347,27 @@ function showFeedNotes(userMood, div){
         noteBuffer.append(noteContent, heartButton, commentP)
         noteContent.append(userH3, contentP)
     }
+}
+
+
+function likeNote(event, userMood, likeSpan){
+    let id = userMood.id
+    let currentLikes = userMood.likes
+    let data = {
+        'likes': currentLikes + 1
+    }
+    fetch(`${USER_MOOD_URL}/${id}`, {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(resp => resp.json())
+    .then(note => updateLikes(note, likeSpan))
+
+    function updateLikes(note, likeSpan){
+        let currentLikes = parseInt(likeSpan.innerText)
+        likeSpan.innerText = currentLikes + 1
+        currentLikes +=1 
+    }
+ 
 }

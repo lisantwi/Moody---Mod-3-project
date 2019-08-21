@@ -16,43 +16,49 @@ function renderNotes(user){
     titleH2.innerText = "Your Notes"
     allNotesDiv.appendChild(titleH2)
 
-    user.user_moods.forEach(user_mood => {
+    if (user.user_moods){
+        user.user_moods.forEach(user_mood => {
         
-        //creating individual note elements
-        const noteDiv = document.createElement("div")
-        noteDiv.dataset.userMood = user_mood.id
-        const moodName = document.createElement("h5")
-        const noteP = document.createElement("p")
-        const dateP = document.createElement('p') 
-        const deleteButton = document.createElement('button')
-        const editButton = document.createElement('button')
+            //creating individual note elements
+            const noteDiv = document.createElement("div")
+            noteDiv.dataset.userMood = user_mood.id
+            const moodName = document.createElement("h5")
+            const noteP = document.createElement("p")
+            const dateP = document.createElement('p') 
+            const deleteButton = document.createElement('button')
+            const editButton = document.createElement('button')
+    
+            // javascript dates why are you like this
+            const noteDate = user_mood.date_entry.toString()
+            const yyyy = parseInt(noteDate.slice(0,4))
+            const mm = parseInt(noteDate.slice(4,6))
+            const dd = parseInt(noteDate.slice(6,8))
+            const jsDate = new Date(yyyy,mm-1,dd)
+            const displayDate = jsDate.toUTCString().split(' ').slice(0,4).join(' ') 
+    
+            // inner texts and classes 
+            dateP.innerHTML = `Date posted: <span>${displayDate}</span>`
+            dateP.classList.add('note-date')
+            noteP.innerHTML = `Note: <span>${user_mood.note}</span>`
+            noteP.classList.add('note-content')
+            moodName.innerText = `Your Mood: ${user_mood.mood["name"]}`
+            deleteButton.innerText = 'Delete note'
+            editButton.innerText = 'Edit note'
+            editButton.classList.add('edit-button')
+    
+            // eventListeners
+            deleteButton.addEventListener('click', deleteNote)
+            editButton.addEventListener('click', showEditForm)
+            
+            //appending stuff
+            noteDiv.append(noteP, dateP, moodName, deleteButton, editButton)
+            allNotesDiv.appendChild(noteDiv)  
+        })
+      
 
-        // javascript dates why are you like this
-        const noteDate = user_mood.date_entry.toString()
-        const yyyy = parseInt(noteDate.slice(0,4))
-        const mm = parseInt(noteDate.slice(4,6))
-        const dd = parseInt(noteDate.slice(6,8))
-        const jsDate = new Date(yyyy,mm-1,dd)
-        const displayDate = jsDate.toUTCString().split(' ').slice(0,4).join(' ') 
+    }
 
-        // inner texts and classes 
-        dateP.innerHTML = `Date posted: <span>${displayDate}</span>`
-        dateP.classList.add('note-date')
-        noteP.innerHTML = `Note: <span>${user_mood.note}</span>`
-        noteP.classList.add('note-content')
-        moodName.innerText = `Your Mood: ${user_mood.mood["name"]}`
-        deleteButton.innerText = 'Delete note'
-        editButton.innerText = 'Edit note'
-        editButton.classList.add('edit-button')
 
-        // eventListeners
-        deleteButton.addEventListener('click', deleteNote)
-        editButton.addEventListener('click', showEditForm)
-        
-        //appending stuff
-        noteDiv.append(noteP, dateP, moodName, deleteButton, editButton)
-        allNotesDiv.appendChild(noteDiv)  
-    })
 }
 
 function deleteNote(event){

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_20_222115) do
+ActiveRecord::Schema.define(version: 2019_08_21_193738) do
 
   create_table "activities", force: :cascade do |t|
     t.string "name"
@@ -35,7 +35,8 @@ ActiveRecord::Schema.define(version: 2019_08_20_222115) do
     t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "is_public", default: false
+    t.boolean "is_public"
+    t.integer "likes"
     t.index ["mood_id"], name: "index_user_moods_on_mood_id"
     t.index ["user_id"], name: "index_user_moods_on_user_id"
   end

@@ -77,5 +77,8 @@ function buildActivitiesForm(){
 
 // render a user's favorite activities
 function fetchActivities(){
-    
+    const id = JSON.parse(localStorage.getItem("user")).id
+    fetch(`${USER_URL}/${id}`)
+    .then(res => res.json())
+    .then(renderNotes)
 }

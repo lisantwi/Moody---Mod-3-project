@@ -285,7 +285,6 @@ function showFeedNotes(userMood, div){
         noteContent.classList.add("card-body")
         contentP.classList.add("card-text")
  
-     
         const noteDate = userMood.date_entry.toString()
         const yyyy = parseInt(noteDate.slice(0,4))
         const mm = parseInt(noteDate.slice(4,6))
@@ -298,8 +297,6 @@ function showFeedNotes(userMood, div){
         commentP.innerText = "0 Comments"
         contentP.innerText = userMood.note
 
-
-        
         //appending elements
 
         div.appendChild(noteDiv)

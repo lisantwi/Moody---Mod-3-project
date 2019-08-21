@@ -30,7 +30,7 @@ class UsersController < ApplicationController
                         }
                     }
                 },
-                :activity => {
+                :activities => {
                     :only => :name,
                     :except => [:created_at, :updated_at]
                 }
@@ -38,5 +38,4 @@ class UsersController < ApplicationController
             :except => [:created_at, :updated_at]
         }
     end
-
-end 
+end

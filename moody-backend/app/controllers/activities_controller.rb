@@ -8,7 +8,7 @@ class ActivitiesController < ApplicationController
     def create
         mood = Mood.find_by(name: params[:mood_name])
         activity = Activity.create(user_id: params[:user_id], mood_id: mood.id, name: params[:name])
-        render json: activity
+        render json: activity.to_json(activity_serializer_options)
     end
 
     private

@@ -22,6 +22,7 @@ function renderNotes(user){
             //creating individual note elements
             const noteDiv = document.createElement("div")
             noteDiv.dataset.userMood = user_mood.id
+            noteDiv.classList.add('container')
             const moodName = document.createElement("h5")
             const noteP = document.createElement("p")
             const dateP = document.createElement('p') 

@@ -1,12 +1,46 @@
 /* this function handles what happens after 
 a user clicks on 'your profile' on the navbar */
+
 function profileLoad(){
     burnDownDOM()
 
-    // loading text on top of
+    // loading texts on profile load 
     const main = document.querySelector('main')
     main.innerHTML = loadHeader()
+    appendProfileTexts()
 
+    // activities form 
+    appendActivityForm()
+    
+    // activity header
+    const activityHeader = document.createElement('h4')
+    activityHeader.innerText = 'Your Moody activities'
+    contentDiv().appendChild(activityHeader)
+
+    // search bar 
+    appendSearchBar()
+
+    // fetch activities from database 
+    fetchActivities()
+}
+
+// helper functions for on profile load 
+function appendActivityForm(){
+    const activForm = document.createElement('form')
+    activForm.innerHTML = buildActivitiesForm()
+
+    // form event listener
+    activForm.addEventListener('submit', handleActivitySubmit)
+    contentDiv().appendChild(activForm)
+}
+
+function appendSearchBar(){
+    const searchBar = document.createElement('form')
+    searchBar.innerHTML = createSearchBar()
+    contentDiv().appendChild(searchBar)
+}
+
+function appendProfileTexts(){
     const profileDiv = document.createElement('div')
     profileDiv.classList.add('col-md-6')
     const profileP = document.createElement('p')
@@ -14,31 +48,29 @@ function profileLoad(){
     profileP.classList.add('profile-message')
     profileDiv.appendChild(profileP)
     contentDiv().appendChild(profileDiv)
-
-    // activities form 
-    const activForm = document.createElement('form')
-    activForm.innerHTML = buildActivitiesForm()
-    activForm.addEventListener('submit', newActivity)
-    contentDiv().appendChild(activForm)
-
-    const searchBar = document.createElement('form')
-    searchBar.innerHTML = createSearchBar()
-    contentDiv().appendChild(searchBar)
-
-    fetchActivities()
 }
 
-function loadHeader(){
-    return `
-    <h4 class='main-content'>Hi, ${JSON.parse(localStorage.getItem("user")).name}!</h2
-    `
+// functions to fetch activities 
+function fetchActivities(){
+    const id = JSON.parse(localStorage.getItem("user")).id
+    fetch(`${USER_URL}/${id}`)
+    .then(res => res.json())
+    .then(renderActivities)
 }
 
-function loadProfileMessage(){
-    return `At Moody, we want you to be reminded of activities you like to do or you find helpful when in a particular mood. To help us remind you, please keep filling out this form. We appreciate you! <i class="far fa-hand-peace"></i>`
+function renderActivities(userObj){
+    const activityUl = document.createElement('ul')
+    activityUl.classList.add('activity-list')
+    contentDiv().appendChild(activityUl)
+    
+    userObj.activities.forEach(activity => {
+        const activityLi = document.createElement('li')
+        activityLi.innerHTML = `When I'm feeling ${activity.mood.name}, I like to ${activity.name}`
+        activityUl.appendChild(activityLi)
+    })
 }
 
-function newActivity(){
+function handleActivitySubmit(){
     event.preventDefault()
 
     const userMood = event.target['mood-entry'].value
@@ -72,7 +104,6 @@ function postActivity(newActivity){
 }
 
 function renderNewActivity(activity){
-    console.log(activity)
     const activityUl = document.querySelector('.activity-list')
     if (activityUl) {
         appendNewActivity(activity, activityUl)
@@ -108,33 +139,29 @@ function buildActivitiesForm(){
     `
 }
 
-function fetchActivities(){
-    const id = JSON.parse(localStorage.getItem("user")).id
-    fetch(`${USER_URL}/${id}`)
-    .then(res => res.json())
-    .then(renderActivities)
+/* helper functions for loading the header 
+and the profile welcome message */
+function loadHeader(){
+    return `
+    <h4 class='main-content'>Hi, ${JSON.parse(localStorage.getItem("user")).name}!</h4>
+    `
 }
 
-function renderActivities(userObj){
-    const activityUl = document.createElement('ul')
-    activityUl.classList.add('activity-list')
-    contentDiv().appendChild(activityUl)
-    
-    userObj.activities.forEach(activity => {
-        const activityLi = document.createElement('li')
-        activityLi.innerHTML = `When I'm feeling ${activity.mood.name}, I like to ${activity.name}`
-        activityUl.appendChild(activityLi)
-    })
+function loadProfileMessage(){
+    return `At Moody, we want you to be reminded of activities you like to do or you 
+    find helpful when in a particular mood. To help us remind you, please keep filling out this form. We appreciate you! 
+    <i class="far fa-hand-peace"></i>`
 }
 
+// search bar helper functions 
 function createSearchBar(){
     return `
-    <input type="text" class="col-md-6" id="myInput" onkeyup="searchActivity()" placeholder="Filter activities by mood">
+    <input type="text" class="col-md-6" id="searchInput" onkeyup="searchActivity()" placeholder="Filter activities by mood">
     `
 }
 
 function searchActivity() {
-    const input = document.getElementById("myInput") 
+    const input = document.getElementById("searchInput") 
     const filter = input.value.toUpperCase();
     const ul = document.querySelector('.activity-list');
     const li = ul.querySelectorAll("li");

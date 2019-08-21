@@ -5,7 +5,6 @@ const USER_URL = `${BASE_URL}/users`
 
 document.addEventListener('DOMContentLoaded', function(){
     console.log("'ello, is it me you're looking for?")
-    // renderForm()
     let navBar = document.querySelector(".navbar-primary")
     navBar.style.display="none"
     loginForm()
@@ -23,11 +22,9 @@ document.addEventListener('DOMContentLoaded', function(){
     const feedLink = document.querySelector('#feed-link')
     feedLink.addEventListener('click', showFeed)
 
-    // const noteDiv = document.querySelector('.user-notes')
 })
 
 function loginForm(){
-    // event.preventDefault()
     burnDownDOM()
     let div = contentDiv()
     const starDiv = document.createElement('div')
@@ -68,37 +65,9 @@ function loginForm(){
     formDiv.appendChild(form)
     form.addEventListener("submit", findOrCreate)
 
-
-   
-
-    // const main = document.querySelector("main")
-    // const formDiv = document.createElement("div")
-    // const form = document.createElement("form")
-    // const formInput = document.createElement("input")
-    // formInput.setAttribute("type", "text")
-    // formInput.innerText = "Enter your name"
-
-    // const h1Text = document.createElement("h1")
-    // h1Text.innerText = "Enter your Name"
-    // main.appendChild(formDiv)
-    
-    // form.appendChild(formInput)
-    // formDiv.classList.add('main-content')
-    // const submitButton = document.createElement("button")
-    // submitButton.innerHTML = "Submit"
-    // submitButton.setAttribute("type", "submit")
-
-    // formDiv.append(h1Text, form)
-    // form.append(formInput, submitButton)
-
-
 }
 
-// function loggingIn(){
-//     const divCenter = document.querySelector('div-center')
-//     debugger
-//     form.addEventListener("submit", findOrCreate)
-// }
+
 
 function findOrCreate(){
     event.preventDefault()
@@ -169,16 +138,13 @@ function renderForm(){
         if (data.note){
            noteH2.innerText = `Your mood for today is: ${data.mood.name}`
         } else{
-            noteH2.innerText = 'Hi NAME, How are you feeling today?'
+            noteH2.innerText = `Hi ${JSON.parse(localStorage.getItem("user")).name}, How are you feeling today?`
         }
  
     }
         
 
     )
-
-    // fetch(`${USER_URL}/${id}`)
-    // .then(resp => resp.json())
 
  
 }

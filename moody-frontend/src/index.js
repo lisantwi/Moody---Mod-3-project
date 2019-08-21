@@ -187,7 +187,6 @@ function noteSubmit(){
         is_public: moodPrivacy,
         note: userMoodNote
     }
-    debugger
     postNote(newNote)
     event.target.reset()
 }

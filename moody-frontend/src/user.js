@@ -8,6 +8,7 @@ function profileLoad(){
     main.innerHTML = loadHeader()
     const profileP = document.createElement('p')
     profileP.innerHTML = loadProfileMessage()
+    profileP.classList.add('profile-message')
     contentDiv().appendChild(profileP)
 
     // activities form 
@@ -15,6 +16,8 @@ function profileLoad(){
     activForm.innerHTML = buildActivitiesForm()
     activForm.addEventListener('submit', newActivity)
     contentDiv().appendChild(activForm)
+
+    fetchActivities()
 }
 
 function loadHeader(){
@@ -24,7 +27,7 @@ function loadHeader(){
 }
 
 function loadProfileMessage(){
-    return `At Moody, we want our users to be reminded of activities which they like to do or which they find helpful, depending on their mood. To help us remind you, please keep filling out this form. We appreciate you! <i class="far fa-hand-peace"></i>`
+    return `At Moody, we want you to be reminded of activities you like to do or you find helpful when in a particular mood. To help us remind you, please keep filling out this form. We appreciate you! <i class="far fa-hand-peace"></i>`
 }
 
 function newActivity(){
@@ -38,7 +41,6 @@ function newActivity(){
         mood_name: userMood,
         name: userActivity
     }
-
     postActivity(newActivity)
     event.target.reset()
 }
@@ -54,7 +56,24 @@ function postActivity(newActivity){
     
     fetch(`${BASE_URL}/activities`, configObject)
     .then(res => res.json())
-    .then(console.log)
+    .then(appendNewActivity)
+}
+
+function appendNewActivity(activity){
+    console.log(activity)
+    const activityUl = document.querySelector('.activity-list')
+    if (activityUl) {
+        const activityLi = document.createElement('li')
+        activityLi.innerHTML = `When I'm feeling ${activity.mood.name}, I like to ${activity.name}`
+        activityUl.appendChild(activityLi)
+    } else {
+        const activityUl = document.createElement('ul')
+        activityUl.classList.add('activity-list')
+        contentDiv().appendChild(activityUl)
+        const activityLi = document.createElement('li')
+        activityLi.innerHTML = `When I'm feeling ${activity.mood.name}, I like to ${activity.name}`
+        activityUl.appendChild(activityLi)
+    }
 }
 
 function buildActivitiesForm(){
@@ -80,5 +99,17 @@ function fetchActivities(){
     const id = JSON.parse(localStorage.getItem("user")).id
     fetch(`${USER_URL}/${id}`)
     .then(res => res.json())
-    .then(renderNotes)
+    .then(renderActivities)
+}
+
+function renderActivities(userObj){
+    const activityUl = document.createElement('ul')
+    activityUl.classList.add('activity-list')
+    contentDiv().appendChild(activityUl)
+    
+    userObj.activities.forEach(act => {
+        const activityLi = document.createElement('li')
+        activityLi.innerHTML = `When I'm feeling ${act.mood.name}, I like to ${act.name}`
+        activityUl.appendChild(activityLi)
+    })
 }

@@ -24,8 +24,9 @@ function renderNotes(user){
             noteDiv.dataset.userMood = user_mood.id
             noteDiv.classList.add('container')
             const moodName = document.createElement("h5")
+            const moodHeader = document.createElement('h4')
             const noteP = document.createElement("p")
-            const dateP = document.createElement('p') 
+            // const dateP = document.createElement('p') 
             const deleteButton = document.createElement('button')
             const editButton = document.createElement('button')
     
@@ -38,11 +39,11 @@ function renderNotes(user){
             const displayDate = jsDate.toUTCString().split(' ').slice(0,4).join(' ') 
     
             // inner texts and classes 
-            dateP.innerHTML = `Date posted: <span>${displayDate}</span>`
-            dateP.classList.add('note-date')
+            moodHeader.innerText = displayDate
+            // dateP.classList.add('note-date')
             noteP.innerHTML = `Note: <span>${user_mood.note}</span>`
             noteP.classList.add('note-content')
-            moodName.innerText = `Your Mood: ${user_mood.mood["name"]}`
+            moodName.innerText = `Mood: ${user_mood.mood["name"]}`
             deleteButton.innerText = 'Delete note'
             editButton.innerText = 'Edit note'
             editButton.classList.add('edit-button')
@@ -52,14 +53,10 @@ function renderNotes(user){
             editButton.addEventListener('click', showEditForm)
             
             //appending stuff
-            noteDiv.append(noteP, dateP, moodName, deleteButton, editButton)
+            noteDiv.append(moodHeader, moodName, noteP, deleteButton, editButton)
             allNotesDiv.appendChild(noteDiv)  
         })
-      
-
     }
-
-
 }
 
 function deleteNote(event){

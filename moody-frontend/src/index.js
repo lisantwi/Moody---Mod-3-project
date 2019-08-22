@@ -140,13 +140,7 @@ function renderForm(){
         } else{
             noteH2.innerText = `Hi ${JSON.parse(localStorage.getItem("user")).name}, How are you feeling today?`
         }
- 
-    }
-        
-
-    )
-
- 
+    })
 }
 
 function noteSubmit(){
@@ -263,7 +257,7 @@ function showFeed(){
 
 function showFeedNotes(userMood, div){
     if (userMood.is_public){
-            //elements for notecard
+        //elements for notecard
 
         const noteDiv = document.createElement("div")
         const dateP = document.createElement("p")

@@ -166,6 +166,9 @@ function noteSubmit(){
         moodPrivacy = true
     }
 
+    if (userMood === ''|| userMoodNote === '') {
+        alert('Please enter a mood and a note :)')
+    } else {
     const newNote = {
         user_id: JSON.parse(localStorage.getItem("user")).id,
         mood_name: userMood,
@@ -176,6 +179,7 @@ function noteSubmit(){
     }
     postNote(newNote)
     event.target.reset()
+    }
 }
 
 function postNote(newNote){

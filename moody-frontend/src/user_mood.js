@@ -22,7 +22,7 @@ function renderNotes(user){
             //creating individual note elements
             const noteDiv = document.createElement("div")
             noteDiv.dataset.userMood = user_mood.id
-            noteDiv.classList.add('container')
+            noteDiv.classList.add('card-body')
             const moodName = document.createElement("h5")
             const moodHeader = document.createElement('h4')
             const noteP = document.createElement("p")
@@ -41,9 +41,10 @@ function renderNotes(user){
             // inner texts and classes 
             moodHeader.innerText = displayDate
             // dateP.classList.add('note-date')
-            noteP.innerHTML = `Note: <span>${user_mood.note}</span>`
+            noteP.innerHTML = `<span>${user_mood.note}</span>`
             noteP.classList.add('note-content')
-            moodName.innerText = `Mood: ${user_mood.mood["name"]}`
+            const moodString = user_mood.mood['name']
+            moodName.innerText = `Mood: ${moodString.charAt(0).toUpperCase()+ moodString.slice(1)}`
             deleteButton.innerText = 'Delete note'
             editButton.innerText = 'Edit note'
             editButton.classList.add('edit-button')

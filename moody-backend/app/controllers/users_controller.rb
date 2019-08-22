@@ -16,6 +16,12 @@ class UsersController < ApplicationController
         end
     end
 
+    def chart
+        user = User.find(params[:id])
+        count_arr = user.user_moods.each_with_object(Hash.new(0)) { |x, counts| counts[x.mood.name] += 1 }.to_json
+        render json: count_arr
+    end
+
     def show
         user = User.find(params[:id])
         render json: user.to_json(user_serializer_options)

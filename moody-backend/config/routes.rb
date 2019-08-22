@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'moods', to: 'moods#index'
   get 'users/:id/', to: 'users#show'
   get 'users/:id/note', to: 'users#note'
+  get 'users/:id/chart', to: 'users#chart'
   resources :activities, only: [:index, :create]
  # resources :moods
 end

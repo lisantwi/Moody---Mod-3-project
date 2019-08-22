@@ -113,6 +113,115 @@ function contentDiv(){
 
 function showTrends(){
     console.log('showing trends')
+    let id = JSON.parse(localStorage.getItem("user")).id
+    fetch(`${USER_URL}/${id}/chart`)
+    .then(resp => resp.json())
+    .then(renderChart)
+}
+
+function renderChart(moodData){
+    burnDownDOM()
+    chartCanvas = document.createElement("canvas")
+    chartCanvas.id = 'bar-chart'
+    chartCanvas.style.width = '800'
+    chartCanvas.style.height = '400'
+    const chartH2 = document.createElement('h2')
+    chartH2.innerText = "Your Moody Data"
+    let div = contentDiv()
+    div.append(chartH2,chartCanvas)
+    console.log('appended canvas')
+   
+
+    checkData(moodData)
+
+
+
+
+
+    
+}
+
+function checkData(moodData){
+    let angry = ''
+    let happy = ''
+    let sad = ''
+    let calm = ''
+    let anxious = ''
+    if (moodData.angry === undefined){
+        angry = 0;
+    } else{
+        angry = moodData.angry
+    }
+
+    if (moodData.sad === undefined){
+        sad = 0;
+    } else{
+        sad = moodData.sad
+    }
+
+    if (moodData.happy === undefined){
+        happy = 0;
+    } else{
+        happy = moodData.happy
+    }
+
+    if (moodData.anxious === undefined){
+        anxious = 0;
+    } else{
+        anxious = moodData.anxious
+    }
+
+    if (moodData.calm === undefined){
+        calm = 0;
+    } else{
+        calm = moodData.calm
+    }
+
+    createGraph(angry, happy, anxious, calm, sad)
+
+}
+
+function createGraph(angry, happy, anxious, calm, sad){
+
+    new Chart(document.getElementById("bar-chart"), {
+        type: 'bar',
+        data: {
+          labels: ["Happy", "Calm", "Angry", "Anxious", "Sad"],
+          datasets: [
+            {
+              label: "Daily Moods",
+              backgroundColor: ["#3e95cd", "#8e5ea2","#ffcc00", "#339966", "#ff5050"],
+              data: [happy, calm, angry, anxious, sad]
+            }
+          ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        beginAtZero: true
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Number of Days'
+                      }
+                }], 
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Mood types'
+                      }
+                }]
+            },
+          legend: { display: false },
+          title: {
+            display: true,
+            text: 'Mood data'
+          }
+        }
+    });
+
 }
 
 function renderForm(){

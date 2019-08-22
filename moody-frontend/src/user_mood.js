@@ -40,6 +40,7 @@ function renderNotes(user){
     
             // inner texts and classes 
             moodHeader.innerText = displayDate
+            moodHeader.classList.add('mood-header')
             // dateP.classList.add('note-date')
             noteP.innerHTML = `<span>${user_mood.note}</span>`
             noteP.classList.add('note-content')

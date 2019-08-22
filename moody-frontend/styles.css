@@ -392,3 +392,18 @@ body {
   text-shadow: 1px 1px 1px #ccc;
   font-size: 1.5em;
 }
+
+#mood-today{
+  color: #4daa86;
+  font-weight: bold;
+  
+}
+
+.mood-header{
+  font-weight: bold;
+  background-color: #4daa86;
+}
+
+.div-title{
+  font-weight: bold;
+}

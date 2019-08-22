@@ -251,7 +251,7 @@ function renderForm(){
         noteForm.addEventListener('submit', noteSubmit)
 
         if (data.note){
-           noteH2.innerText = `Your mood for today is: ${data.mood.name}`
+           noteH2.innerHTML = `Your mood for today is: <span id='mood-today'>${data.mood.name}</span>`
         } else{
             noteH2.innerText = `Hi ${JSON.parse(localStorage.getItem("user")).name}, How are you feeling today?`
         }
@@ -317,7 +317,7 @@ function postNote(newNote){
         if (data.message){
             alert(data.message)
         } else {
-            fetchAllNotes
+            fetchAllNotes()
         }
     })
 }
@@ -372,6 +372,7 @@ function showFeed(){
         
         let divTitle = document.createElement("h3")
         divTitle.innerText = "Your Feed"
+        divTitle.classList.add('div-title')
         div.appendChild(divTitle)
         userMoodArr.forEach(userMood => showFeedNotes(userMood,div))})
 }
@@ -432,6 +433,7 @@ function likeNote(event, userMood, likeSpan){
     let id = userMood.id
     let currentLikes = userMood.likes
     let data = {
+        'note': userMood.note,
         'likes': currentLikes + 1
     }
     fetch(`${USER_MOOD_URL}/${id}`, {

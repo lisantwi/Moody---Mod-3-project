@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function(){
     const feedLink = document.querySelector('#feed-link')
     feedLink.addEventListener('click', showFeed)
 
+    const trendLink = document.querySelector('#trend-link')
+    trendLink.addEventListener('click', showTrends)
+
 })
 
 function loginForm(){
@@ -108,6 +111,9 @@ function contentDiv(){
     return main.appendChild(div)
 }
 
+function showTrends(){
+    console.log('showing trends')
+}
 
 function renderForm(){
     burnDownDOM() 
@@ -140,14 +146,12 @@ function renderForm(){
         } else{
             noteH2.innerText = `Hi ${JSON.parse(localStorage.getItem("user")).name}, How are you feeling today?`
         }
- 
-    }
-        
-
+    }      
     )
 
- 
 }
+
+
 
 function noteSubmit(){
     event.preventDefault()

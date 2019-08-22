@@ -6,7 +6,7 @@ class UserMoodsController < ApplicationController
 
     def create
         mood = Mood.find_by(name: params[:mood_name])
-        if UserMood.find_by(date_entry: params[:date_entry])
+        if UserMood.find_by(date_entry: params[:date_entry], user_id:params[:user_id])
             json_string = {'message' => 'You have already set a note for today'}.to_json
             render json: json_string
         else

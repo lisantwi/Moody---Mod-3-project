@@ -146,13 +146,7 @@ function renderForm(){
         } else{
             noteH2.innerText = `Hi ${JSON.parse(localStorage.getItem("user")).name}, How are you feeling today?`
         }
-<<<<<<< HEAD
     })
-=======
-    }      
-    )
-
->>>>>>> chart
 }
 
 
